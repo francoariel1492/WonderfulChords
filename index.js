@@ -1,8 +1,9 @@
-//Variables del Dom
+// Variables del DOM
+const chordSection = document.getElementById("chords");
+const videoSection = document.getElementById("video");
+const music = document.getElementById("music");
+const btn = document.getElementById("btn");
 
-let chordSection = document.getElementById("chords");
-let videoSection = document.getElementById("video")
-let music = document.getElementById("music")
 // Array de progresiones de acordes
 const chordProgressions = [
   ["bb", "g7", "c7", "f7"], 
@@ -23,53 +24,32 @@ const chordProgressions = [
   ["c","cmaj7","c7","f","g6","a7","dm","f","g"],
 ];
 
-
-
-//Array de animaciones
-const animations = [
-  "zoomIn",
-  "slideInDown",
-  "fadeInTopLeft",
-  "fadeInRightBig",
-  "flipInX",
-  "jackInTheBox",
-  "zoomInUp",
-  "lightSpeedInLeft",
-  "bounceInDown",
-  "heartBeat",
-  "pulse",
-];
-
-
-//Funciones
-
-
+// Funciones
 function getRandom(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-
-
 const randomProg = () => {
-  music.className += `animate__fadeIn`
+  music.classList.add("animate__fadeIn");
   chordSection.innerHTML = "";
-  videoSection.innerHTML = ""
-  let randomNum = getRandom(0, chordProgressions.length - 1);
-  chordProgressions[randomNum].map(
-    (randomNum) =>
-      (chordSection.innerHTML += `<div id="cardChord"><img src=https://ukulelego.com/ukulele-chord-progressions/images/${randomNum}.svg></img></div>`)
-  );
-  videoSection.innerHTML += `<video controls>
-                             <source src="./videos/${chordProgressions[randomNum].join("")}.mp4" type="video/mp4">.
-                              </video>`
+  videoSection.innerHTML = "";
+
+  const randomNum = getRandom(0, chordProgressions.length - 1);
+
+  let chordSectionHTML = "";
+  for (let i = 0; i < chordProgressions[randomNum].length; i++) {
+    chordSectionHTML += `
+      <div id="cardChord">
+        <img src=https://ukulelego.com/ukulele-chord-progressions/images/${chordProgressions[randomNum][i]}.svg>
+      </div>`;
+  }
+  chordSection.innerHTML = chordSectionHTML;
+
+  videoSection.innerHTML = `
+    <video controls>
+      <source src="./videos/${chordProgressions[randomNum].join("")}.mp4" type="video/mp4">
+    </video>`;
 };
 
-//Boton
-let btn = document.getElementById("btn");
-
-//Evento del Boton
+// Evento del Boton
 btn.addEventListener("click", randomProg);
-
-
